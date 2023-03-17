@@ -24,6 +24,35 @@ class Api {
     );
   }
 
+  readonly signup = async (formData: {
+    username: string;
+    email: string;
+    password: string;
+  }) => {
+    try {
+      const response = await this.axiosInstance.post(
+        "/users/signup/",
+        formData
+      );
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
+
+  readonly login = async (formData: { username: string; password: string }) => {
+    try {
+      const response = await this.axiosInstance.post("/users/login/", formData);
+
+      localStorage.setItem("token", response.data.token);
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
+
   readonly getLocations = async ({
     name,
     region,
