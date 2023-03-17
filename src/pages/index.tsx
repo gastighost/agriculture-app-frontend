@@ -74,7 +74,7 @@ const Home = () => {
 
           <div className="mt-10">
             <ul className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:flex lg:place-content-around">
-              <li className="flex flex-col items-center justify-center text-center">
+              <li className="flex flex-col items-center justify-top text-center w-40">
                 <div className="flex justify-center items-center h-12 w-12 rounded-md bg-green-600 text-white">
                   <svg
                     className="h-6 w-6"
@@ -100,7 +100,7 @@ const Home = () => {
                 </div>
               </li>
 
-              <li className="flex flex-col items-center justify-center text-center">
+              <li className="flex flex-col items-center justify-top text-center w-40">
                 <div className="flex justify-center items-center h-12 w-12 rounded-md bg-green-600 text-white">
                   <svg
                     className="h-6 w-6"
@@ -127,7 +127,7 @@ const Home = () => {
                 </div>
               </li>
 
-              <li className="flex flex-col items-center justify-center text-center">
+              <li className="flex flex-col items-center justify-top text-center w-40">
                 <div className="flex justify-center items-center h-12 w-12 rounded-md bg-green-600 text-white">
                   <svg
                     className="h-6 w-6"
@@ -153,7 +153,7 @@ const Home = () => {
                 </div>
               </li>
 
-              <li className="flex flex-col items-center justify-center text-center">
+              <li className="flex flex-col items-center justify-top text-center w-40">
                 <div className="flex justify-center items-center h-12 w-12 rounded-md bg-green-600 text-white">
                   <svg
                     className="h-6 w-6"
