@@ -31,7 +31,7 @@ const LocationSearchbar = (props: LocationSearchbarProps) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
       <h2 className="text-lg font-semibold mb-4">Search Locations</h2>
-      <div className="flex flex-wrap justify-between">
+      <div className="flex flex-wrap justify-between items-center">
         <div className="w-full sm:w-1/2 lg:w-1/4 mb-4 pr-2">
           <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
             Name
@@ -77,7 +77,7 @@ const LocationSearchbar = (props: LocationSearchbarProps) => {
             placeholder="e.g. France"
           />
         </div>
-        <div className="w-full sm:w-1/2 lg:w-1/4 mb-4 pr-2">
+        <div className="w-full sm:w-1/2 lg:w-1/4 mb-4 pr-2 flex justify-center items-center">
           <button
             className="h-10 bg-green-600 hover:bg-green-700 text-white px-4 rounded-md"
             onClick={() => setCreateLocationModal(true)}
