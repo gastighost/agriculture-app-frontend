@@ -41,8 +41,8 @@ const Home = () => {
               Use our new farming tool today!
             </h2>
             <p className="mt-4 text-lg text-gray-500">
-              From cozy country homes to funky city apartments, find the perfect
-              place to stay for your next trip.
+              From country farms to magnificent vineyards, manage your farms
+              today with this great tool.
             </p>
           </div>
 

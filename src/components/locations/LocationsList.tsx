@@ -5,6 +5,7 @@ import { fetchLocations } from "../../store/locations";
 import { AppDispatch, RootState } from "../../store/store";
 import CreateLocation from "./CreateLocation";
 import Location from "./Location";
+import LocationSearchbar from "./LocationSearchbar";
 
 const LocationsList = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,19 +20,8 @@ const LocationsList = () => {
   }, [dispatch]);
 
   return (
-    <div className="bg-white container mx-auto">
-      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-          Locations
-        </h1>
-
-        <button
-          className="h-8 bg-green-600 hover:bg-green-700 text-white px-4 rounded"
-          onClick={() => setCreateLocationModal(true)}
-        >
-          Create new location
-        </button>
-      </div>
+    <div className="bg-white container mx-auto pt-4">
+      <LocationSearchbar setCreateLocationModal={setCreateLocationModal} />
 
       <div className="relative flex py-5 items-center">
         <div className="flex-grow border-t border-gray-400"></div>
