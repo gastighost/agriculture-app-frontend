@@ -1,21 +1,26 @@
 import { ChangeEvent, useState, MouseEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+
 import { fetchLocations } from "../store/locations";
-import { AppDispatch, RootState } from "../store/store";
+import { AppDispatch } from "../store/store";
 
 const Home = () => {
-  const { locations } = useSelector((store: RootState) => store.locations);
+  const router = useRouter();
+
   const dispatch = useDispatch<AppDispatch>();
 
-  const [location, setLocation] = useState<string>("");
+  const [region, setRegion] = useState<string>("");
 
   const onLocationChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setLocation(e.target.value);
+    setRegion(e.target.value);
   };
 
   const onSearch = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    dispatch(fetchLocations({}));
+    dispatch(fetchLocations({ region }));
+
+    router.push("/locations/");
   };
 
   return (
@@ -29,7 +34,7 @@ const Home = () => {
             Your best farming tool!
           </h1>
           <p className="mt-2 text-lg text-gray-500">
-            Start searching locations now!
+            Start searching farm locations now!
           </p>
           <div className="mt-6 max-w-lg mx-auto">
             <form className="grid grid-cols-1 gap-6">
@@ -37,8 +42,8 @@ const Home = () => {
                 <input
                   className="block w-full py-3 px-4 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-gray-300 border-2"
                   type="text"
-                  placeholder="Where are you going?"
-                  value={location}
+                  placeholder="Please select a region"
+                  value={region}
                   onChange={onLocationChange}
                 />
               </div>
@@ -114,11 +119,11 @@ const Home = () => {
                   </svg>
                 </div>
                 <div className="mt-5 text-lg leading-6 font-medium text-gray-900">
-                  Book experiences
+                  Manage crops
                 </div>
                 <div className="mt-2 text-sm text-gray-500">
-                  Discover unique activities, guided tours, and more experiences
-                  to help you explore your destination.
+                  Manage your crops effectively! Find out when your crops should
+                  be placed on the market!
                 </div>
               </li>
 
@@ -141,11 +146,10 @@ const Home = () => {
                   </svg>
                 </div>
                 <div className="mt-5 text-lg leading-6 font-medium text-gray-900">
-                  Stay anywhere
+                  Markets
                 </div>
                 <div className="mt-2 text-sm text-gray-500">
-                  Book a listing from a secure platform, so you can feel at ease
-                  wherever you go.
+                  Sell your crops effectively!
                 </div>
               </li>
 
@@ -171,8 +175,7 @@ const Home = () => {
                   Join our community
                 </div>
                 <div className="mt-2 text-sm text-gray-500">
-                  Connect with like-minded travelers and hosts, and share your
-                  experiences.
+                  Connect with other farms, and share your experiences.
                 </div>
               </li>
             </ul>
