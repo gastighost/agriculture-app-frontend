@@ -1,46 +1,82 @@
-import Link from "next/link";
+import Image from "next/image";
 
 interface LocationProps {
-  id: string;
-  name: string;
-  region: string;
-  country: string;
-  selectedLocation: string;
-  setSelectedLocation: (arg: any) => void;
+  currentLocation: any;
 }
 
-const Location = (props: LocationProps) => {
-  const { id, name, region, country, selectedLocation, setSelectedLocation } =
-    props;
-
-  const isHovering = id === selectedLocation;
-
+const Location = ({ currentLocation }: LocationProps) => {
   return (
-    <div
-      className={`block ${
-        isHovering ? "bg-green-500" : "bg-green-600"
-      } rounded`}
-      onMouseOver={() => setSelectedLocation(id)}
-      onMouseOut={() => setSelectedLocation("")}
-    >
-      <Link href={`/locations/${id}`}>
-        <div className="flex items-center px-4 py-4 sm:px-6">
-          <div className="min-w-0 flex-1 flex items-center">
-            <div className="min-w-0 flex-1 md:grid md:grid-cols-2 md:gap-4">
-              <div>
-                <div className="text-sm leading-5 font-medium text-white">
-                  {name}
-                </div>
-                <div className="mt-2 flex items-center text-sm leading-5 text-white">
-                  <span>
-                    {region}, {country}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="mx-auto max-w-5xl p-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-medium">{currentLocation.name}</h1>
+        <div className="flex items-center space-x-4">
+          <button className="bg-gray-100 px-4 py-2 rounded-lg text-gray-800 font-medium">
+            Edit
+          </button>
+          <button className="bg-red-500 px-4 py-2 rounded-lg text-white font-medium">
+            Delete
+          </button>
         </div>
-      </Link>
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 gap-6">
+        <div>
+          <Image
+            src="/farm-stock-photo.jpeg"
+            alt="farm-photo"
+            width={400}
+            height={300}
+            className="rounded-lg"
+            style={{ width: "100%", height: "auto" }}
+            priority
+          />
+        </div>
+        <div>
+          <h2 className="text-xl font-medium mb-2">Location details</h2>
+          <p className="text-gray-700 mb-2">
+            <span className="font-medium">Region:</span>{" "}
+            {currentLocation.region}
+          </p>
+          <p className="text-gray-700 mb-2">
+            <span className="font-medium">Country:</span>{" "}
+            {currentLocation.country}
+          </p>
+          <p className="text-gray-700 mb-2">
+            <span className="font-medium">Latitude:</span>{" "}
+            {currentLocation.latitude}
+          </p>
+          <p className="text-gray-700 mb-2">
+            <span className="font-medium">Longitude:</span>{" "}
+            {currentLocation.longitude}
+          </p>
+        </div>
+      </div>
+
+      {/* <div className="mt-12">
+        <h2 className="text-xl font-medium mb-2">
+          Farms in {currentLocation.name}
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {farms.map((farm) => (
+            <div key={farm.id} className="bg-white rounded-lg shadow-md p-4">
+              <Image
+                src="/farm-image.jpg"
+                alt={farm.name}
+                width={200}
+                height={150}
+                className="rounded-lg"
+              />
+              <h3 className="text-lg font-medium my-2">{farm.name}</h3>
+              <p className="text-gray-700">
+                <span className="font-medium">Region:</span> {farm.region}
+              </p>
+              <p className="text-gray-700">
+                <span className="font-medium">Country:</span> {farm.country}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div> */}
     </div>
   );
 };

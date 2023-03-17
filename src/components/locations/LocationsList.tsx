@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchLocations } from "../../store/locations";
 import { AppDispatch, RootState } from "../../store/store";
 import CreateLocation from "./CreateLocation";
-import Location from "./Location";
+import LocationCard from "./LocationCard";
 import LocationSearchbar from "./LocationSearchbar";
 
 const LocationsList = () => {
@@ -34,7 +34,7 @@ const LocationsList = () => {
               const { id, name, region, country } = location;
 
               return (
-                <Location
+                <LocationCard
                   key={id}
                   id={id}
                   name={name}

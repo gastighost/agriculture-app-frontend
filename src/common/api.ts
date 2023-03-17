@@ -101,6 +101,16 @@ class Api {
       throw error.response;
     }
   };
+
+  readonly getLocation = async (locationId: string) => {
+    try {
+      const response = await this.axiosInstance.get(`/locations/${locationId}`);
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
 }
 
 const api = new Api();
