@@ -1,24 +1,11 @@
-import { ChangeEvent, useState, MouseEvent } from "react";
+import { MouseEvent } from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-
-import { fetchLocations } from "../store/locations";
-import { AppDispatch } from "../store/store";
 
 const Home = () => {
   const router = useRouter();
 
-  const dispatch = useDispatch<AppDispatch>();
-
-  const [region, setRegion] = useState<string>("");
-
-  const onLocationChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRegion(e.target.value);
-  };
-
   const onSearch = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    dispatch(fetchLocations({ region }));
 
     router.push("/locations/");
   };
@@ -37,25 +24,12 @@ const Home = () => {
             Start searching farm locations now!
           </p>
           <div className="mt-6 max-w-lg mx-auto">
-            <form className="grid grid-cols-1 gap-6">
-              <div className="relative">
-                <input
-                  className="block w-full py-3 px-4 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-gray-300 border-2"
-                  type="text"
-                  placeholder="Please select a region"
-                  value={region}
-                  onChange={onLocationChange}
-                />
-              </div>
-              <div>
-                <button
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={onSearch}
-                >
-                  Search
-                </button>
-              </div>
-            </form>
+            <button
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={onSearch}
+            >
+              Get started
+            </button>
           </div>
         </div>
       </div>

@@ -87,6 +87,20 @@ class Api {
       throw error.response;
     }
   };
+
+  readonly createLocation = async (formData: {
+    name: string;
+    region: string;
+    country: string;
+  }) => {
+    try {
+      const response = await this.axiosInstance.post("/locations/", formData);
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
 }
 
 const api = new Api();
