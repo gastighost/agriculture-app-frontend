@@ -38,7 +38,7 @@ const SignupForm = (props: SignupFormProps) => {
 
       activateLogin();
     } catch (error: any) {
-      toast.error(error.data.message || error.message || "Failed to sign up");
+      toast.error(error.data?.message || error.message || "Failed to sign up");
     }
   };
 
