@@ -51,6 +51,9 @@ const locationsSlice = createSlice({
       .addCase(fetchLocations.fulfilled, (state, action) => {
         state.locations = action.payload;
       })
+      .addCase(fetchLocation.pending, (state) => {
+        state.location = null;
+      })
       .addCase(fetchLocation.fulfilled, (state, action) => {
         state.location = action.payload;
       });
