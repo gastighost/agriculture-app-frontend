@@ -1,6 +1,21 @@
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
+import { RootState } from "../../store/store";
+import { removeUser } from "../../store/users";
 
 const Navbar = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { user } = useSelector((store: RootState) => store.users);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    dispatch(removeUser());
+    router.push("/login/");
+  };
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 w-full">
       <nav className="bg-white border-b border-gray-200">
@@ -21,11 +36,20 @@ const Navbar = () => {
               </div>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:items-center">
-              <Link href="/login/">
-                <button className="bg-white px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  Log in
+              {user ? (
+                <button
+                  className="bg-red-600 px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600"
+                  onClick={logout}
+                >
+                  Log out
                 </button>
-              </Link>
+              ) : (
+                <Link href="/login/">
+                  <button className="bg-white px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Log in
+                  </button>
+                </Link>
+              )}
             </div>
             <div className="-mr-2 flex items-center sm:hidden">
               <button

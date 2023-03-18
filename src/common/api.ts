@@ -66,6 +66,16 @@ class Api {
     }
   };
 
+  readonly getProfile = async () => {
+    try {
+      const response = await this.axiosInstance.get("/users/profile/");
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
+
   readonly getLocations = async ({
     name,
     region,
