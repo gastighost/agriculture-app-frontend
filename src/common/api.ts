@@ -1,3 +1,4 @@
+import Router from "next/router";
 import axios, { AxiosInstance } from "axios";
 
 class Api {
@@ -19,6 +20,18 @@ class Api {
         return config;
       },
       (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    this.axiosInstance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          localStorage.removeItem("token");
+
+          Router.push("/login/");
+        }
         return Promise.reject(error);
       }
     );
