@@ -111,6 +111,44 @@ class Api {
       throw error.response;
     }
   };
+
+  readonly getFarms = async ({
+    name,
+    locationId,
+    userId,
+  }: {
+    name?: string;
+    locationId?: string;
+    userId?: string;
+  }) => {
+    try {
+      const queryObject: {
+        name?: string;
+        locationId?: string;
+        userId?: string;
+      } = {};
+
+      if (name) {
+        queryObject.name = name;
+      }
+
+      if (locationId) {
+        queryObject.locationId = locationId;
+      }
+
+      if (userId) {
+        queryObject.userId = userId;
+      }
+
+      const response = await this.axiosInstance.get("/farms/", {
+        params: queryObject,
+      });
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
 }
 
 const api = new Api();

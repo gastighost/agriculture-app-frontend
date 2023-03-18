@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../common/api";
 
-interface Location {
+export interface Location {
   id: string;
   name: string;
   region: string;
@@ -12,10 +12,12 @@ interface Location {
 
 interface LocationsState {
   locations: Location[];
+  location: null | Location;
 }
 
 const initialState: LocationsState = {
   locations: [],
+  location: null,
 };
 
 export const fetchLocations = createAsyncThunk(
@@ -31,14 +33,27 @@ export const fetchLocations = createAsyncThunk(
   }
 );
 
+export const fetchLocation = createAsyncThunk(
+  "locations/fetchLocation",
+  async (locationId: string) => {
+    const response = await api.getLocation(locationId);
+
+    return response.data.location;
+  }
+);
+
 const locationsSlice = createSlice({
   name: "locations",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchLocations.fulfilled, (state, action) => {
-      state.locations = action.payload;
-    });
+    builder
+      .addCase(fetchLocations.fulfilled, (state, action) => {
+        state.locations = action.payload;
+      })
+      .addCase(fetchLocation.fulfilled, (state, action) => {
+        state.location = action.payload;
+      });
   },
 });
 
