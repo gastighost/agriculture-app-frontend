@@ -25,7 +25,7 @@ const Location = ({ locationId }: LocationProps) => {
   if (!location) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="flex items-center justify-center space-x-2 text-gray-600">
+        <div className="flex items-center justify-center space-x-2 text-green-700">
           <svg
             className="animate-spin h-5 w-5 mr-3"
             xmlns="http://www.w3.org/2000/svg"
