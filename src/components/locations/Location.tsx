@@ -1,9 +1,11 @@
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { fetchFarms } from "../../store/farms";
 import { fetchLocation } from "../../store/locations";
 import { AppDispatch, RootState } from "../../store/store";
+import CreateFarmForm from "../farms/CreateFarmForm";
 import FarmLocationCard from "../farms/FarmLocationCard";
 
 interface LocationProps {
@@ -11,9 +13,19 @@ interface LocationProps {
 }
 
 const Location = ({ locationId }: LocationProps) => {
+  const [createFarmModal, setCreateFarmModal] = useState<boolean>(false);
+
   const dispatch = useDispatch<AppDispatch>();
   const { location } = useSelector((store: RootState) => store.locations);
   const { farms } = useSelector((store: RootState) => store.farms);
+
+  const createFarmFormOn = () => {
+    setCreateFarmModal(true);
+  };
+
+  const createFarmFormOff = () => {
+    setCreateFarmModal(false);
+  };
 
   useEffect(() => {
     if (locationId) {
@@ -96,13 +108,26 @@ const Location = ({ locationId }: LocationProps) => {
       </div>
 
       <div className="mt-12">
-        <h2 className="text-xl font-medium mb-2">Farms in {location.name}</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-medium mb-2">Farms in {location.name}</h2>
+          <button
+            className="bg-green-700 px-4 py-2 rounded-lg text-white"
+            onClick={createFarmFormOn}
+          >
+            Create Farm
+          </button>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {farms.map((farm) => (
             <FarmLocationCard key={farm.id} location={location} farm={farm} />
           ))}
         </div>
       </div>
+      <CreateFarmForm
+        isOpen={createFarmModal}
+        onClose={createFarmFormOff}
+        locationId={location.id}
+      />
     </div>
   );
 };

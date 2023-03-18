@@ -172,6 +172,22 @@ class Api {
       throw error.response;
     }
   };
+
+  readonly createFarm = async (
+    locationId: string,
+    formData: { name: string; areaSize: number }
+  ) => {
+    try {
+      const response = await this.axiosInstance.post(
+        `/farms/${locationId}`,
+        formData
+      );
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
 }
 
 const api = new Api();
