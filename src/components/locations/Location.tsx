@@ -7,6 +7,7 @@ import { fetchLocation } from "../../store/locations";
 import { AppDispatch, RootState } from "../../store/store";
 import CreateFarmForm from "../farms/CreateFarmForm";
 import FarmLocationCard from "../farms/FarmLocationCard";
+import EditLocation from "./EditLocation";
 
 interface LocationProps {
   locationId: string;
@@ -14,6 +15,7 @@ interface LocationProps {
 
 const Location = ({ locationId }: LocationProps) => {
   const [createFarmModal, setCreateFarmModal] = useState<boolean>(false);
+  const [editLocationModal, setEditLocationModal] = useState<boolean>(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const { location } = useSelector((store: RootState) => store.locations);
@@ -69,7 +71,10 @@ const Location = ({ locationId }: LocationProps) => {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-medium">{location.name}</h1>
         <div className="flex items-center space-x-4">
-          <button className="bg-gray-100 px-4 py-2 rounded-lg text-gray-800 font-medium">
+          <button
+            className="bg-gray-100 px-4 py-2 rounded-lg text-gray-800 font-medium"
+            onClick={() => setEditLocationModal(true)}
+          >
             Edit
           </button>
           <button className="bg-red-500 px-4 py-2 rounded-lg text-white font-medium">
@@ -127,6 +132,10 @@ const Location = ({ locationId }: LocationProps) => {
         isOpen={createFarmModal}
         onClose={createFarmFormOff}
         locationId={location.id}
+      />
+      <EditLocation
+        editLocationModal={editLocationModal}
+        setEditLocationModal={setEditLocationModal}
       />
     </div>
   );

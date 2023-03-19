@@ -135,6 +135,22 @@ class Api {
     }
   };
 
+  readonly editLocation = async (
+    locationId: string,
+    formData: { name?: string; region?: string; country?: string }
+  ) => {
+    try {
+      const response = await this.axiosInstance.patch(
+        `/locations/${locationId}`,
+        formData
+      );
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
+
   readonly getFarms = async ({
     name,
     locationId,
