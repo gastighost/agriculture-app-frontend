@@ -235,6 +235,30 @@ class Api {
       throw error.response;
     }
   };
+
+  readonly updateFarmSoil = async (
+    farmId: string,
+    formData: {
+      date: string;
+      pH: number;
+      moisture: number;
+      fertility: number;
+    }
+  ) => {
+    try {
+      const response = await this.axiosInstance.patch(
+        `/farms/${farmId}/add-soil`,
+        {
+          ...formData,
+          date: new Date(formData.date).toISOString(),
+        }
+      );
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
 }
 
 const api = new Api();

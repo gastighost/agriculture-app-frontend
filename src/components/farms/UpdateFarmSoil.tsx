@@ -7,10 +7,10 @@ import api from "../../common/api";
 import { AppDispatch } from "../../store/store";
 import { fetchFarm } from "../../store/farms";
 
-interface UpdateFarmWeatherProps {
+interface UpdateFarmSoilProps {
   farmId: string;
-  weatherUpdateModal: boolean;
-  setWeatherUpdateModal: (arg: boolean) => void;
+  soilUpdateModal: boolean;
+  setSoilUpdateModal: (arg: boolean) => void;
 }
 
 const customStyles = {
@@ -31,16 +31,16 @@ const customStyles = {
   },
 };
 
-const UpdateFarmWeather = (props: UpdateFarmWeatherProps) => {
-  const { farmId, weatherUpdateModal, setWeatherUpdateModal } = props;
+const UpdateFarmSoil = (props: UpdateFarmSoilProps) => {
+  const { farmId, soilUpdateModal, setSoilUpdateModal } = props;
 
   const dispatch = useDispatch<AppDispatch>();
 
   const [formData, setFormData] = useState({
     date: "",
-    temperature: "",
-    humidity: "",
-    rainfall: "",
+    pH: "",
+    moisture: "",
+    fertility: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,28 +53,29 @@ const UpdateFarmWeather = (props: UpdateFarmWeatherProps) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await api.updateFarmWeather(farmId, {
+      await api.updateFarmSoil(farmId, {
         ...formData,
-        temperature: Number(formData.temperature),
-        humidity: Number(formData.humidity),
-        rainfall: Number(formData.rainfall),
+        pH: Number(formData.pH),
+        moisture: Number(formData.moisture),
+        fertility: Number(formData.fertility),
       });
 
       dispatch(fetchFarm(farmId));
 
-      toast.success("Farm weather successfully updated!");
+      toast.success("Farm soil successfully updated!");
 
-      setWeatherUpdateModal(false);
+      setSoilUpdateModal(false);
     } catch (error) {
-      toast.error("Failed to update farm weather");
+      console.log(error);
+      toast.error("Failed to update farm soil");
     }
   };
 
   return (
     <Modal
-      isOpen={weatherUpdateModal}
+      isOpen={soilUpdateModal}
       onRequestClose={() => {
-        setWeatherUpdateModal(false);
+        setSoilUpdateModal(false);
       }}
       style={customStyles}
       ariaHideApp={false}
@@ -85,7 +86,7 @@ const UpdateFarmWeather = (props: UpdateFarmWeatherProps) => {
             className="text-lg leading-6 font-medium text-gray-900"
             id="modal-headline"
           >
-            Add weather record
+            Add soil record
           </h3>
           <div className="mt-2">
             <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
@@ -110,17 +111,17 @@ const UpdateFarmWeather = (props: UpdateFarmWeatherProps) => {
               </div>
               <div>
                 <label
-                  htmlFor="temperature"
+                  htmlFor="pH"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Temperature (in celsius)
+                  pH level
                 </label>
                 <div className="mt-1">
                   <input
                     type="number"
-                    name="temperature"
-                    id="temperature"
-                    value={formData.temperature}
+                    name="pH"
+                    id="pH"
+                    value={formData.pH}
                     onChange={handleChange}
                     required
                     className="py-2 px-3 rounded-md shadow-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border"
@@ -129,17 +130,17 @@ const UpdateFarmWeather = (props: UpdateFarmWeatherProps) => {
               </div>
               <div>
                 <label
-                  htmlFor="humidity"
+                  htmlFor="moisture"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Humidity (%)
+                  Moisture (%)
                 </label>
                 <div className="mt-1">
                   <input
                     type="number"
-                    name="humidity"
-                    id="humidity"
-                    value={formData.humidity}
+                    name="moisture"
+                    id="moisture"
+                    value={formData.moisture}
                     onChange={handleChange}
                     required
                     className="py-2 px-3 rounded-md shadow-sm border-gray-300 focus:outline-none focus:ring-indigo-500focus:border-indigo-500 block w-full sm:text-sm border"
@@ -148,17 +149,17 @@ const UpdateFarmWeather = (props: UpdateFarmWeatherProps) => {
               </div>
               <div>
                 <label
-                  htmlFor="rainfall"
+                  htmlFor="fertility"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Rainfall (cm)
+                  Fertility (%)
                 </label>
                 <div className="mt-1">
                   <input
                     type="number"
-                    name="rainfall"
-                    id="rainfall"
-                    value={formData.rainfall}
+                    name="fertility"
+                    id="fertility"
+                    value={formData.fertility}
                     onChange={handleChange}
                     required
                     className="py-2 px-3 rounded-md shadow-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border"
@@ -181,4 +182,4 @@ const UpdateFarmWeather = (props: UpdateFarmWeatherProps) => {
   );
 };
 
-export default UpdateFarmWeather;
+export default UpdateFarmSoil;

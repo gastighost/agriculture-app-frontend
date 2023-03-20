@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 import { Soil, Weather } from "../../store/farms";
 import { RootState } from "../../store/store";
+import UpdateFarmSoil from "./UpdateFarmSoil";
 import UpdateFarmWeather from "./UpdateFarmWeather";
 
 const FarmDetails = () => {
@@ -17,6 +18,7 @@ const FarmDetails = () => {
   const [soil, setSoil] = useState<Soil[]>([]);
 
   const [weatherUpdateModal, setWeatherUpdateModal] = useState<boolean>(false);
+  const [soilUpdateModal, setSoilUpdateModal] = useState<boolean>(false);
 
   const convertDateToUs = (date: string) => {
     return new Date(date).toLocaleString("en-US");
@@ -172,12 +174,18 @@ const FarmDetails = () => {
 
         <div className="w-full md:w-2/3 mb-8">
           <h2 className="text-2xl font-bold mb-4">Soil</h2>
-          <div className="flex">
+          <div className="flex justify-between">
             <button
               onClick={() => setSoilDesc((prevState) => !prevState)}
               className="rounded bg-amber-800 px-3 py-1 text-white text-sm"
             >
               Sort {soilDesc ? "Ascending" : "Descending"}
+            </button>
+            <button
+              onClick={() => setSoilUpdateModal(true)}
+              className="rounded bg-amber-800 hover:bg-amber-900 px-3 py-1 text-white text-sm"
+            >
+              Add soil record
             </button>
           </div>
           <table className="table-auto w-full">
@@ -208,6 +216,11 @@ const FarmDetails = () => {
         farmId={farm.id}
         weatherUpdateModal={weatherUpdateModal}
         setWeatherUpdateModal={setWeatherUpdateModal}
+      />
+      <UpdateFarmSoil
+        farmId={farm.id}
+        soilUpdateModal={soilUpdateModal}
+        setSoilUpdateModal={setSoilUpdateModal}
       />
     </Fragment>
   );
