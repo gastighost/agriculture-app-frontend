@@ -214,6 +214,27 @@ class Api {
       throw error.response;
     }
   };
+
+  readonly updateFarmWeather = async (
+    farmId: string,
+    formData: {
+      date: string;
+      temperature: number;
+      humidity: number;
+      rainfall: number;
+    }
+  ) => {
+    try {
+      const response = await this.axiosInstance.patch(
+        `/farms/${farmId}/add-weather`,
+        { ...formData, date: new Date(formData.date).toISOString() }
+      );
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
 }
 
 const api = new Api();

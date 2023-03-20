@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 import { Soil, Weather } from "../../store/farms";
 import { RootState } from "../../store/store";
+import UpdateFarmWeather from "./UpdateFarmWeather";
 
 const FarmDetails = () => {
   const { farm } = useSelector((store: RootState) => store.farms);
@@ -14,6 +15,8 @@ const FarmDetails = () => {
 
   const [soilDesc, setSoilDesc] = useState<boolean>(true);
   const [soil, setSoil] = useState<Soil[]>([]);
+
+  const [weatherUpdateModal, setWeatherUpdateModal] = useState<boolean>(false);
 
   const convertDateToUs = (date: string) => {
     return new Date(date).toLocaleString("en-US");
@@ -124,12 +127,21 @@ const FarmDetails = () => {
 
         <div className="w-full md:w-2/3 mb-8">
           <h2 className="text-2xl font-bold mb-4">Weather</h2>
-          <button
-            onClick={() => setWeatherDesc((prevState) => !prevState)}
-            className="rounded bg-blue-500 px-3 py-1 text-white text-sm"
-          >
-            Sort {weatherDesc ? "Ascending" : "Descending"}
-          </button>
+          <div className="flex justify-between">
+            <button
+              onClick={() => setWeatherDesc((prevState) => !prevState)}
+              className="rounded bg-blue-500 px-3 py-1 text-white text-sm"
+            >
+              Sort {weatherDesc ? "Ascending" : "Descending"}
+            </button>
+
+            <button
+              onClick={() => setWeatherUpdateModal(true)}
+              className="rounded bg-blue-500 hover:bg-blue-600 px-3 py-1 text-white text-sm"
+            >
+              Add weather record
+            </button>
+          </div>
           <table className="table-auto w-full">
             <thead>
               <tr>
@@ -150,7 +162,7 @@ const FarmDetails = () => {
                       {data.temperature} &deg;C
                     </td>
                     <td className="border px-4 py-2">{data.humidity} %</td>
-                    <td className="border px-4 py-2">{data.rainfall} in.</td>
+                    <td className="border px-4 py-2">{data.rainfall} cm.</td>
                   </tr>
                 );
               })}
@@ -160,12 +172,14 @@ const FarmDetails = () => {
 
         <div className="w-full md:w-2/3 mb-8">
           <h2 className="text-2xl font-bold mb-4">Soil</h2>
-          <button
-            onClick={() => setSoilDesc((prevState) => !prevState)}
-            className="rounded bg-amber-800 px-3 py-1 text-white text-sm"
-          >
-            Sort {soilDesc ? "Ascending" : "Descending"}
-          </button>
+          <div className="flex">
+            <button
+              onClick={() => setSoilDesc((prevState) => !prevState)}
+              className="rounded bg-amber-800 px-3 py-1 text-white text-sm"
+            >
+              Sort {soilDesc ? "Ascending" : "Descending"}
+            </button>
+          </div>
           <table className="table-auto w-full">
             <thead>
               <tr>
@@ -190,6 +204,11 @@ const FarmDetails = () => {
           </table>
         </div>
       </div>
+      <UpdateFarmWeather
+        farmId={farm.id}
+        weatherUpdateModal={weatherUpdateModal}
+        setWeatherUpdateModal={setWeatherUpdateModal}
+      />
     </Fragment>
   );
 };
