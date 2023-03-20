@@ -12,7 +12,7 @@ const NavbarLayout = ({ children }: any) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (router.pathname !== "/login") {
+    if (router.pathname !== "/login" && router.pathname !== "/") {
       dispatch(fetchUser());
     }
   }, [dispatch, router]);
