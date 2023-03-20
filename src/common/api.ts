@@ -204,6 +204,16 @@ class Api {
       throw error.response;
     }
   };
+
+  readonly getFarm = async (farmId: string) => {
+    try {
+      const response = await this.axiosInstance.get(`/farms/${farmId}`);
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
 }
 
 const api = new Api();
