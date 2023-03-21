@@ -37,7 +37,7 @@ const ChatPopup = (props: ChatPopupProps) => {
     });
 
     if (user) {
-      socket.on(user.id, (message: string) => {
+      socket.on(user.id, ({ message }: { message: string }) => {
         setMessages((prevMessages: Message[]) => [
           ...prevMessages,
           { sender: "recipient", text: message },
@@ -59,8 +59,13 @@ const ChatPopup = (props: ChatPopupProps) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (socket) {
-      socket.emit("message", { id: userId, message: newMessage });
+    if (socket && user) {
+      socket.emit("message", {
+        id: userId,
+        senderId: user.id,
+        username: user.username,
+        message: newMessage,
+      });
       setMessages((prevState: Message[]) => [
         ...prevState,
         { sender: "user", text: newMessage },

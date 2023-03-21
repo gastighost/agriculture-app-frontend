@@ -1,19 +1,35 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { io, Socket } from "socket.io-client";
 
 import { AppDispatch, RootState } from "../../store/store";
 import { selectChatUser } from "../../store/users";
 import ChatPopup from "../chat/ChatPopup";
 
 const UsersList = () => {
-  const { otherUsers, activeChatUser } = useSelector(
+  const { otherUsers, activeChatUser, user } = useSelector(
     (store: RootState) => store.users
   );
   const dispatch = useDispatch<AppDispatch>();
 
   const [selectedUser, setSelectedUser] = useState<string>("");
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  useEffect(() => {
+    const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL as string);
+    setSocket(socket);
+
+    if (socket && user) {
+      socket.on(
+        user.id,
+        ({ senderId, username }: { senderId: string; username: string }) => {
+          dispatch(selectChatUser({ username, id: senderId }));
+        }
+      );
+    }
+  }, [dispatch, user]);
 
   const handleMouseEnter = (userId: string) => {
     setSelectedUser(userId);
@@ -23,8 +39,15 @@ const UsersList = () => {
     setSelectedUser("");
   };
 
-  const activateChat = (user: any) => {
-    dispatch(selectChatUser(user));
+  const activateChat = (recipientUser: any) => {
+    if (socket && user) {
+      socket.emit("message", {
+        id: recipientUser.id,
+        senderId: user.id,
+        username: user.username,
+      });
+    }
+    dispatch(selectChatUser(recipientUser));
   };
 
   const deactivateChat = () => {
