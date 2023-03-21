@@ -1,12 +1,17 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
+import { selectChatUser } from "../../store/users";
+import ChatPopup from "../chat/ChatPopup";
 
 const UsersList = () => {
-  const { otherUsers } = useSelector((store: RootState) => store.users);
+  const { otherUsers, activeChatUser } = useSelector(
+    (store: RootState) => store.users
+  );
+  const dispatch = useDispatch<AppDispatch>();
 
   const [selectedUser, setSelectedUser] = useState<string>("");
 
@@ -15,6 +20,15 @@ const UsersList = () => {
   };
 
   const handleMouseLeave = () => {
+    setSelectedUser("");
+  };
+
+  const activateChat = (user: any) => {
+    dispatch(selectChatUser(user));
+  };
+
+  const deactivateChat = () => {
+    dispatch(selectChatUser(null));
     setSelectedUser("");
   };
 
@@ -44,7 +58,17 @@ const UsersList = () => {
             <span className="mt-4 text-lg text-center font-medium text-gray-900">
               {user.username}
             </span>
-            {selectedUser === user.id && <button>Open chat</button>}
+            {selectedUser === user.id && (
+              <button
+                onClick={() => activateChat(user)}
+                className="rounded bg-blue-500 hover:bg-blue-600 px-3 py-1 text-white text-sm"
+              >
+                Open chat
+              </button>
+            )}
+            {user.id === activeChatUser?.id && (
+              <ChatPopup userId={activeChatUser.id} onClose={deactivateChat} />
+            )}
           </li>
         ))}
       </ul>

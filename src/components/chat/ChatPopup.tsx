@@ -1,9 +1,11 @@
 import { FormEvent, useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import { io, Socket } from "socket.io-client";
+
+import { RootState } from "../../store/store";
 
 interface ChatPopupProps {
   userId: string;
-  isOpen: boolean;
   onClose: () => void;
 }
 
@@ -13,7 +15,11 @@ interface Message {
 }
 
 const ChatPopup = (props: ChatPopupProps) => {
-  const { userId } = props;
+  const { activeChatUser, user } = useSelector(
+    (store: RootState) => store.users
+  );
+
+  const { userId, onClose } = props;
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
@@ -30,17 +36,19 @@ const ChatPopup = (props: ChatPopupProps) => {
       console.log(socket.connected);
     });
 
-    socket.on(userId, (message: string) => {
-      setMessages((prevMessages: Message[]) => [
-        ...prevMessages,
-        { sender: "recipient", text: message },
-      ]);
-    });
+    if (user) {
+      socket.on(user.id, (message: string) => {
+        setMessages((prevMessages: Message[]) => [
+          ...prevMessages,
+          { sender: "recipient", text: message },
+        ]);
+      });
+    }
 
     return () => {
       socket.disconnect();
     };
-  }, [userId]);
+  }, [user]);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -64,8 +72,13 @@ const ChatPopup = (props: ChatPopupProps) => {
   return (
     <div className="bg-white shadow-md rounded-lg p-4 max-w-md w-full mx-auto absolute bottom-0 right-0 mb-16 mr-4 z-10">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Chat with Host</h2>
-        <button className="text-gray-600 hover:text-gray-800 focus:outline-none">
+        <h2 className="text-lg font-semibold">
+          Chat with {activeChatUser?.username}
+        </h2>
+        <button
+          className="text-gray-600 hover:text-gray-800 focus:outline-none"
+          onClick={onClose}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

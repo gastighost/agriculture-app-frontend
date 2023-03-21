@@ -9,11 +9,13 @@ interface User {
 interface UsersState {
   user: null | User;
   otherUsers: User[];
+  activeChatUser: null | User;
 }
 
 const initialState: UsersState = {
   user: null,
   otherUsers: [],
+  activeChatUser: null,
 };
 
 export const fetchUser = createAsyncThunk("users/fetchUser", async () => {
@@ -38,6 +40,9 @@ const usersSlice = createSlice({
     removeUser(state) {
       state.user = null;
     },
+    selectChatUser(state, action) {
+      state.activeChatUser = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -50,6 +55,6 @@ const usersSlice = createSlice({
   },
 });
 
-export const { removeUser } = usersSlice.actions;
+export const { removeUser, selectChatUser } = usersSlice.actions;
 
 export default usersSlice.reducer;
