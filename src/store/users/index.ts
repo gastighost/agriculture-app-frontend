@@ -8,10 +8,12 @@ interface User {
 
 interface UsersState {
   user: null | User;
+  otherUsers: User[];
 }
 
 const initialState: UsersState = {
   user: null,
+  otherUsers: [],
 };
 
 export const fetchUser = createAsyncThunk("users/fetchUser", async () => {
@@ -19,6 +21,15 @@ export const fetchUser = createAsyncThunk("users/fetchUser", async () => {
 
   return response.data.user;
 });
+
+export const fetchOtherUsers = createAsyncThunk(
+  "users/fetchOtherUsers",
+  async () => {
+    const response = await api.getOtherUsers();
+
+    return response.data.otherUsers;
+  }
+);
 
 const usersSlice = createSlice({
   name: "users",
@@ -29,9 +40,13 @@ const usersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchUser.fulfilled, (state, action) => {
-      state.user = action.payload;
-    });
+    builder
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(fetchOtherUsers.fulfilled, (state, action) => {
+        state.otherUsers = action.payload;
+      });
   },
 });
 

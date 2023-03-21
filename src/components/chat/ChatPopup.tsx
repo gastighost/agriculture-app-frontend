@@ -3,6 +3,8 @@ import { io, Socket } from "socket.io-client";
 
 interface ChatPopupProps {
   userId: string;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 interface Message {

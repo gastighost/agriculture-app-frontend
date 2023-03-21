@@ -76,6 +76,16 @@ class Api {
     }
   };
 
+  readonly getOtherUsers = async () => {
+    try {
+      const response = await this.axiosInstance.get("/users/others/");
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
+
   readonly getLocations = async ({
     name,
     region,
