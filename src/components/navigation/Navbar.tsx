@@ -33,6 +33,11 @@ const Navbar = () => {
                     <p>Locations</p>
                   </div>
                 </Link>
+                <Link href="/users/" className="flex">
+                  <div className="border-transparent text-gray-500 hover:text-green-700 hover:border-green-400 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                    <p>Chats</p>
+                  </div>
+                </Link>
               </div>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:items-center">
