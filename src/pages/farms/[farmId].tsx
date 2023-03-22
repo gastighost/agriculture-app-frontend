@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { fetchFarm } from "../../store/farms";
 import FarmDetails from "../../components/farms/FarmDetails";
+import { fetchCrops } from "../../store/crops";
 
 const FarmPage = () => {
   const router = useRouter();
@@ -13,8 +14,9 @@ const FarmPage = () => {
   useEffect(() => {
     const { farmId } = router.query;
 
-    if (router.isReady) {
+    if (router.isReady && farmId) {
       dispatch(fetchFarm(farmId as string));
+      dispatch(fetchCrops({ farmId: farmId as string }));
     }
   }, [router, dispatch]);
 

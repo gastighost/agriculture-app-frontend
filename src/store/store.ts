@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import locations from "./locations";
 import farms from "./farms";
 import users from "./users";
+import crops from "./crops";
 
 const store = configureStore({
   reducer: {
     locations,
     farms,
     users,
+    crops,
   },
 });
 

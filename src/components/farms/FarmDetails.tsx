@@ -5,11 +5,14 @@ import { useSelector } from "react-redux";
 
 import { Soil, Weather } from "../../store/farms";
 import { RootState } from "../../store/store";
+import CreateCropForm from "../crops/CreateCropForm";
+import FarmCropCard from "../crops/FarmCropCard";
 import UpdateFarmSoil from "./UpdateFarmSoil";
 import UpdateFarmWeather from "./UpdateFarmWeather";
 
 const FarmDetails = () => {
   const { farm } = useSelector((store: RootState) => store.farms);
+  const { crops } = useSelector((store: RootState) => store.crops);
 
   const [weatherDesc, setWeatherDesc] = useState<boolean>(true);
   const [weather, setWeather] = useState<Weather[]>([]);
@@ -19,6 +22,8 @@ const FarmDetails = () => {
 
   const [weatherUpdateModal, setWeatherUpdateModal] = useState<boolean>(false);
   const [soilUpdateModal, setSoilUpdateModal] = useState<boolean>(false);
+
+  const [createCropModal, setCreateCropModal] = useState<boolean>(false);
 
   const convertDateToUs = (date: string) => {
     return new Date(date).toLocaleString("en-US");
@@ -211,6 +216,23 @@ const FarmDetails = () => {
             </tbody>
           </table>
         </div>
+        <div className="justify-self-start w-2/3 mt-4">
+          <h2 className="text-2xl font-bold mb-4">Crops</h2>
+          <div>
+            <button
+              className="rounded bg-green-600 hover:bg-green-700 px-3 py-1 text-white text-sm"
+              onClick={() => setCreateCropModal(true)}
+            >
+              Create Crop
+            </button>
+          </div>
+
+          <div className="flex flex-wrap">
+            {crops.map((crop) => (
+              <FarmCropCard key={crop.id} crop={crop} />
+            ))}
+          </div>
+        </div>
       </div>
       <UpdateFarmWeather
         farmId={farm.id}
@@ -221,6 +243,11 @@ const FarmDetails = () => {
         farmId={farm.id}
         soilUpdateModal={soilUpdateModal}
         setSoilUpdateModal={setSoilUpdateModal}
+      />
+      <CreateCropForm
+        farmId={farm.id}
+        isOpen={createCropModal}
+        onClose={setCreateCropModal}
       />
     </Fragment>
   );

@@ -269,6 +269,87 @@ class Api {
       throw error.response;
     }
   };
+
+  readonly createCrop = async (
+    farmId: string,
+    formData: {
+      name: string;
+      plantingDate: string;
+      harvestDate: string;
+      status: string;
+      area: number;
+    }
+  ) => {
+    try {
+      const response = await this.axiosInstance.post(
+        `/crops/${farmId}`,
+        formData
+      );
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
+
+  readonly getCrops = async ({
+    name,
+    plantingDate,
+    harvestDate,
+    status,
+    area,
+    farmId,
+  }: {
+    name?: string;
+    plantingDate?: string;
+    harvestDate?: string;
+    status?: string;
+    area?: number;
+    farmId?: string;
+  }) => {
+    const queryObject: {
+      name?: string;
+      plantingDate?: string;
+      harvestDate?: string;
+      status?: string;
+      area?: number;
+      farmId?: string;
+    } = {};
+
+    if (name) {
+      queryObject.name = name;
+    }
+
+    if (plantingDate) {
+      queryObject.plantingDate = plantingDate;
+    }
+
+    if (harvestDate) {
+      queryObject.harvestDate = harvestDate;
+    }
+
+    if (status) {
+      queryObject.status = status;
+    }
+
+    if (area) {
+      queryObject.area = area;
+    }
+
+    if (farmId) {
+      queryObject.farmId = farmId;
+    }
+
+    try {
+      const response = await this.axiosInstance.get("/crops/", {
+        params: queryObject,
+      });
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    }
+  };
 }
 
 const api = new Api();
