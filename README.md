@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+Technologies used include the following:
+- Socket.io for live chats
+- Redux toolkit for state management
+- TailwindCSS for styling
+
 ## Getting Started
 
 First, run the development server:
